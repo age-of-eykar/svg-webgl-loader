@@ -1,6 +1,9 @@
-precision mediump float;
-uniform vec4 u_FragColor;
+#version 300 es
+precision highp float;
+
+in vec4 color;
+out vec4 fragColor;
 
 void main() {
-    gl_FragColor = u_FragColor;
+    fragColor = color;
 }
