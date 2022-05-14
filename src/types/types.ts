@@ -1,3 +1,5 @@
+import { ProgramInfo } from 'twgl.js';
+
 type UnitType = 'mm' | 'cm' | 'in' | 'pt' | 'pc' | 'px';
 
 export type ContextAttributes = Partial<{
@@ -20,7 +22,7 @@ export interface RenderConfig {
 }
 
 export interface LoadParams {
-  canvas: HTMLCanvasElement;
+  gl: WebGL2RenderingContext;
   loc?: {
     width?: number;
     height?: number;
@@ -32,7 +34,7 @@ export interface SvgLoader {
   load: (params: LoadParams) => void;
   draw: (params: RenderConfig) => void;
   gl?: GLType;
-  programInfo?: WebGLProgram;
+  programInfo?: ProgramInfo;
   preprocessed?: any;
 }
 

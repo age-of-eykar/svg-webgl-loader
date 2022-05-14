@@ -1,10 +1,12 @@
 import { load } from '@/utils/load';
 import { parse } from '@/core/parse';
-import { createProgram } from '@/core/createProgram';
 import { getViewBox, parsePathToData } from '@/core/parsePathToData';
 import { preprocess } from '@/core/preprocessData';
 import { paint } from '@/core/paint';
 import { SvgLoader, LoadParams, RenderConfig } from './types/types';
+import vertexShader from '@/shaders/vertex.glsl';
+import fragmentShader from '@/shaders/fragment.glsl';
+import { createProgramInfo } from 'twgl.js';
 
 export default async function init(svgUrl: string): Promise<SvgLoader> {
   // 加载svg
@@ -20,8 +22,7 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
   };
 
   svgLoader.load = (params: LoadParams): void => {
-    let { loc, canvas, needTrim = false } = params;
-    // 获取真正绘制区域
+    let { loc, gl, needTrim = false } = params;
     const realViewBox = getViewBox(viewBox, boundary, needTrim);
     const defaultLoc = {
       x: 0,
@@ -32,15 +33,14 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
     loc = loc || defaultLoc;
     loc.width = loc.width || realViewBox.width;
     loc.height = loc.height || realViewBox.height;
-    const { programInfo, gl } = createProgram(canvas);
-    // gl.clearColor(1, 1, 1, 1);
-    // gl.clear(gl.COLOR_BUFFER_BIT);
+    const programInfo = createProgramInfo(gl, [vertexShader, fragmentShader]);
     svgLoader.gl = gl;
     svgLoader.programInfo = programInfo;
-    svgLoader.preprocessed = preprocess(gl, realViewBox, loc, canvas, data);
+    svgLoader.preprocessed = preprocess(gl, realViewBox, loc, data);
   };
 
   svgLoader.draw = (config: RenderConfig): void => {
+    svgLoader.gl.useProgram(svgLoader.programInfo.program);
     const defaultConfig = {
       scale: 1,
       loc: { x: 0, y: 0 },
@@ -51,7 +51,7 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
       svgLoader.gl,
       svgLoader.programInfo,
       svgLoader.preprocessed,
-      (config ? config : defaultConfig)
+      config || defaultConfig
     );
   };
   return svgLoader;
