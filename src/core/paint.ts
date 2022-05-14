@@ -8,14 +8,12 @@ export function paint(gl, programInfo, data, config) {
       (item.type === 'stroke' && !needStroke)
     )
       return;
-
     toggleBlend(gl, item?.fillOpacity);
     setUniforms(programInfo, {
       shapeColor: [item.color.r, item.color.g, item.color.b, item.fillOpacity],
+      location: [config.loc.x, config.loc.y],
+      scale: [1 / config.scale]
     });
-
-    // bind and enable buffering
-
     setBuffersAndAttributes(gl, programInfo, item.bufferInfo);
     drawBufferInfo(gl, item.bufferInfo);
   });

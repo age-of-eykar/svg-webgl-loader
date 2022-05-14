@@ -27,26 +27,23 @@ import svgUrl from "./img/test.svg";
 // load and parse svg data
 const svgData = await svgLoader(svgUrl);
 
-  // load (one time)
-  loader.load({
-    canvas,
-    loc: { // working on a way to move the svg without calling it again
-      x: 0,
-      y: 0,
-      width: 400,
-      height: 400,
-    },
-    needTrim: false,
-  });
+// load the canvas and create the buffers
+loader.load({
+  canvas,
+  loc: {
+    width: 400,
+    height: 400,
+  },
+  needTrim: false,
+});
 
-  // draw (multiple times, eg at every frame)
-  loader.draw(
-    {
-      needFill: true,
-      needStroke: true,
-    },
-  );
-
+// draw on the buffer (can be called at every frame)
+loader.draw({
+  scale: 0.8,
+  loc: { x: 0.5, y: 0 },
+  needFill: true,
+  needStroke: true,
+});
 ```
 
 ## Remark

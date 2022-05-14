@@ -17,13 +17,13 @@ export function preprocess(gl, viewBox, loc, canvas, data) {
 }
 
 function getVertices(vertices: number[], viewBox, loc, canvas): number[] {
-  const { x, y, width, height } = loc;
+  const { width, height } = loc;
   const halfWidth = canvas.width / 2;
   const halfHeight = canvas.height / 2;
   return vertices.map((v, i) =>
     i % 2 === 0
-      ? ((width / viewBox.width) * (v - viewBox.x) + x - halfWidth) / halfWidth
-      : (halfHeight - ((height / viewBox.height) * (v - viewBox.y) + y)) /
-        halfHeight
+      ? ((width / viewBox.width) * (v - viewBox.x) - halfWidth) / halfWidth
+      : (halfHeight - ((height / viewBox.height) * (v - viewBox.y))) /
+      halfHeight
   );
 }

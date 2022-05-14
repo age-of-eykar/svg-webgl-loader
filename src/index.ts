@@ -42,6 +42,8 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
 
   svgLoader.draw = (config: RenderConfig): void => {
     const defaultConfig = {
+      scale: 1,
+      loc: { x: 0, y: 0 },
       needFill: true,
       needStroke: true,
     };
@@ -49,7 +51,7 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
       svgLoader.gl,
       svgLoader.programInfo,
       svgLoader.preprocessed,
-      (config = defaultConfig)
+      (config ? config : defaultConfig)
     );
   };
   return svgLoader;

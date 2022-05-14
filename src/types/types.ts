@@ -13,6 +13,8 @@ export type ContextAttributes = Partial<{
 
 export type GLType = WebGLRenderingContext | WebGL2RenderingContext;
 export interface RenderConfig {
+  scale?: number;
+  loc?: { x: number; y: number };
   needFill?: boolean;
   needStroke?: boolean;
 }
@@ -20,8 +22,6 @@ export interface RenderConfig {
 export interface LoadParams {
   canvas: HTMLCanvasElement;
   loc?: {
-    x: number;
-    y: number;
     width?: number;
     height?: number;
   };

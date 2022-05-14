@@ -8,12 +8,9 @@ async function loadSvg() {
   gl.clearColor(1, 1, 1, 1);
   gl.clear(gl.COLOR_BUFFER_BIT);
   const loader = await svgLoader(svgUrl);
-
   loader.load({
     canvas,
     loc: {
-      x: 0,
-      y: 0,
       width: 400,
       height: 400,
     },
@@ -21,6 +18,8 @@ async function loadSvg() {
   });
 
   loader.draw({
+    scale: 0.8,
+    loc: { x: 0.5, y: 0 },
     needFill: true,
     needStroke: true,
   });

@@ -14,70 +14,67 @@ export function parsePathToData(paths) {
 	}
 
 	paths.forEach((path) => {
-    const { fill, fillOpacity } = path.userData.style;
-    if (fill && fill !== 'none') {
-      const color = new Color().setStyle(fill);
-      const shapes = createShapes(path);
-      shapes.forEach((shape) => {
-        const indices = [];
-        const vertices = [];
+		const { fill, fillOpacity } = path.userData.style;
+		if (fill && fill !== 'none') {
+			const color = new Color().setStyle(fill);
+			const shapes = createShapes(path);
+			shapes.forEach((shape) => {
+				const indices = [];
+				const vertices = [];
 
-        let groupCount = 0;
+				const points = shape.extractPoints(12);
+				let shapeVertices = points.shape;
+				const shapeHoles = points.holes;
 
-        const points = shape.extractPoints(12);
-        let shapeVertices = points.shape;
-        const shapeHoles = points.holes;
+				if (ShapeUtils.isClockWise(shapeVertices) === false) {
+					shapeVertices = shapeVertices.reverse();
+				}
 
-        if (ShapeUtils.isClockWise(shapeVertices) === false) {
-          shapeVertices = shapeVertices.reverse();
-        }
+				for (let i = 0, l = shapeHoles.length; i < l; i++) {
+					const shapeHole = shapeHoles[i];
+					if (ShapeUtils.isClockWise(shapeHole) === true) {
+						shapeHoles[i] = shapeHole.reverse();
+					}
+				}
 
-        for (let i = 0, l = shapeHoles.length; i < l; i++) {
-          const shapeHole = shapeHoles[i];
-          if (ShapeUtils.isClockWise(shapeHole) === true) {
-            shapeHoles[i] = shapeHole.reverse();
-          }
-        }
+				const faces = ShapeUtils.triangulateShape(shapeVertices, shapeHoles);
 
-        const faces = ShapeUtils.triangulateShape(shapeVertices, shapeHoles);
+				for (let i = 0, l = shapeHoles.length; i < l; i++) {
+					const shapeHole = shapeHoles[i];
+					shapeVertices = shapeVertices.concat(shapeHole);
+				}
 
-        for (let i = 0, l = shapeHoles.length; i < l; i++) {
-          const shapeHole = shapeHoles[i];
-          shapeVertices = shapeVertices.concat(shapeHole);
-        }
+				// vertices
 
-        // vertices
-
-        for (let i = 0, l = shapeVertices.length; i < l; i++) {
-          const vertex = shapeVertices[i];
+				for (let i = 0, l = shapeVertices.length; i < l; i++) {
+					const vertex = shapeVertices[i];
 					boundary = setBoundary(vertex, boundary);
-          vertices.push(vertex.x, vertex.y);
-        }
+					vertices.push(vertex.x, vertex.y);
+				}
 
-        // incides
+				// incides
 
-        for (let i = 0, l = faces.length; i < l; i++) {
-          const face = faces[i];
-          const a = face[0];
-          const b = face[1];
-          const c = face[2];
+				for (let i = 0, l = faces.length; i < l; i++) {
+					const face = faces[i];
+					const a = face[0];
+					const b = face[1];
+					const c = face[2];
 
-          indices.push(a, b, c);
-          groupCount += 3;
+					indices.push(a, b, c);
 				}
 
 				data.push({
 					type: "fill",
-          indices,
-          vertices,
-          color,
-          fillOpacity,
-        });
-      });
-    }
+					indices,
+					vertices,
+					color,
+					fillOpacity,
+				});
+			});
+		}
 
-    const stroke = path.userData.style.stroke;
-    if (stroke && stroke !== 'none') {
+		const stroke = path.userData.style.stroke;
+		if (stroke && stroke !== 'none') {
 			const style = path.userData.style;
 			const halfLineWidth = style.strokeWidth / 2;
 			const { strokeLineCap, strokeLineJoin, strokeOpacity } = style;
@@ -121,7 +118,7 @@ export function parsePathToData(paths) {
 				let prevPointR: Vector2 = firstPointR;
 
 				let curPoint: Vector2, nextPoint: Vector2, cur0PointL: Vector2, cur0PointR: Vector2,
-					cur1PointL: Vector2, cur1PointR: Vector2, next0PointL: Vector2, next0PointR: Vector2,
+					cur1PointL: Vector2, cur1PointR: Vector2,
 					curNormal: Vector2, nextNormal: Vector2;
 				let innerPoint: Vector2, outerPoint: Vector2;
 				let curWidth: Vector2, nextWidth: Vector2;
@@ -146,8 +143,6 @@ export function parsePathToData(paths) {
 							innerPoint = prevLine.add(nextLine);
 							outerPoint = new Vector2(-innerPoint.x, -innerPoint.y).add(curPoint);
 							innerPoint = innerPoint.add(curPoint);
-							next0PointL = nextPoint.clone().sub(nextWidth);
-							next0PointR = nextPoint.clone().add(nextWidth);
 							let modify = false;
 							// 内点线的右侧，svg以左上角为原点，y轴相反
 							if (curNormal.dot(new Vector2().subVectors(nextPoint, prevPoint)) > 0) {
@@ -357,8 +352,8 @@ export function parsePathToData(paths) {
 								case 'square':
 									// 第一个点端点平移
 									let normalWidth = firstNormal
-									.clone()
-									.multiplyScalar(halfLineWidth);
+										.clone()
+										.multiplyScalar(halfLineWidth);
 									// 增量
 									let incr = new Vector2(-normalWidth.y, normalWidth.x);
 									let modifyL = firstPointL.clone().add(incr);
@@ -410,19 +405,19 @@ export function parsePathToData(paths) {
 					prevPoint = curPoint;
 				}
 
-				for (let i = 0, l  = vertices.length; i < l; i += 2) {
+				for (let i = 0, l = vertices.length; i < l; i += 2) {
 					setBoundary(new Vector2(vertices[i], vertices[i + 1]), boundary);
 				}
 
 				data.push({
 					type: "stroke",
-          color,
-          strokeOpacity,
-          vertices,
+					color,
+					strokeOpacity,
+					vertices,
 					indices,
-        });
-      });
-    }
+				});
+			});
+		}
 	});
 	return {
 		data,
