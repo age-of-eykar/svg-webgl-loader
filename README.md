@@ -29,7 +29,7 @@ const svgData = await svgLoader(svgUrl);
 
 // load the canvas and create the buffers
 loader.load({
-  canvas,
+  gl,
   loc: {
     width: 400,
     height: 400,
