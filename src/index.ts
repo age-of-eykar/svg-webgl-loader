@@ -4,7 +4,7 @@ import { createProgram } from '@/core/createProgram';
 import { getViewBox, parsePathToData } from '@/core/parsePathToData';
 import { preprocess } from '@/core/preprocessData';
 import { paint } from '@/core/paint';
-import { SvgLoader, DrawParams } from './types/types';
+import { SvgLoader, LoadParams, RenderConfig } from './types/types';
 
 export default async function init(svgUrl: string): Promise<SvgLoader> {
   // 加载svg
@@ -15,17 +15,14 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
   const { data, boundary } = parsePathToData(paths);
 
   const svgLoader: SvgLoader = {
+    load: null,
     draw: null,
   };
-  svgLoader.draw = (params: DrawParams): HTMLCanvasElement => {
-    const defaultConfig = {
-      needTrim: false,
-      needFill: true,
-      needStroke: true,
-    };
-    let { loc, canvas, config = defaultConfig } = params;
+
+  svgLoader.load = (params: LoadParams): void => {
+    let { loc, canvas, needTrim = false } = params;
     // 获取真正绘制区域
-    const realViewBox = getViewBox(viewBox, boundary, config.needTrim);
+    const realViewBox = getViewBox(viewBox, boundary, needTrim);
     const defaultLoc = {
       x: 0,
       y: 0,
@@ -38,13 +35,22 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
     const { programInfo, gl } = createProgram(canvas);
     // gl.clearColor(1, 1, 1, 1);
     // gl.clear(gl.COLOR_BUFFER_BIT);
+    svgLoader.gl = gl;
+    svgLoader.programInfo = programInfo;
+    svgLoader.preprocessed = preprocess(gl, realViewBox, loc, canvas, data);
+  };
+
+  svgLoader.draw = (config: RenderConfig): void => {
+    const defaultConfig = {
+      needFill: true,
+      needStroke: true,
+    };
     paint(
-      gl,
-      programInfo,
-      preprocess(gl, realViewBox, loc, canvas, data),
-      config
+      svgLoader.gl,
+      svgLoader.programInfo,
+      svgLoader.preprocessed,
+      (config = defaultConfig)
     );
-    return canvas;
   };
   return svgLoader;
 }
