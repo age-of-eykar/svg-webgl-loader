@@ -20,7 +20,8 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"axios": "^0.21.1"
+		"axios": "^0.21.1",
+		"twgl.js": "^4.22.0"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.14.5",

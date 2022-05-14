@@ -7168,6 +7168,11 @@
   dependencies:
     "tslib" "^1.8.1"
 
+"twgl.js@^4.22.0":
+  "integrity" "sha512-R9FfA3yDLwoiO2gnIkzxcWOI7i8L79c/vPNyt0BrERKjczYEL6zQIvd+0SBKgQmI7+lltYB3xawxrSyqy+qRpg=="
+  "resolved" "https://registry.npmjs.org/twgl.js/-/twgl.js-4.22.0.tgz"
+  "version" "4.22.0"
+
 "type-check@^0.4.0", "type-check@~0.4.0":
   "integrity" "sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew=="
   "resolved" "https://registry.npmjs.org/type-check/-/type-check-0.4.0.tgz"
