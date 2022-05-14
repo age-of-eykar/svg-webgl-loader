@@ -2,6 +2,7 @@ import { load } from '@/utils/load';
 import { parse } from '@/core/parse';
 import { createProgram } from '@/core/createProgram';
 import { getViewBox, parsePathToData } from '@/core/parsePathToData';
+import { preprocess } from '@/core/preprocessData';
 import { paint } from '@/core/paint';
 import { SvgLoader, DrawParams } from './types/types';
 
@@ -37,7 +38,12 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
     const { programInfo, gl } = createProgram(canvas);
     // gl.clearColor(1, 1, 1, 1);
     // gl.clear(gl.COLOR_BUFFER_BIT);
-    paint(gl, programInfo, canvas, data, realViewBox, loc, config);
+    paint(
+      gl,
+      programInfo,
+      preprocess(gl, realViewBox, loc, canvas, data),
+      config
+    );
     return canvas;
   };
   return svgLoader;
