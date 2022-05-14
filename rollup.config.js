@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
 import pkg from './package.json';
+const glslLoader = require('rollup-plugin-glsl-loader');
 
 const path = require('path');
 
@@ -20,11 +21,12 @@ export default {
     {
       file: pkg.module,
       // name: 'svgWebglLoader',
-			format: 'es',
+      format: 'es',
     },
   ],
   plugins: [
     json(),
+    glslLoader(),
     alias({
       entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
       resolve: ['.js', '.ts'],

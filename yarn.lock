@@ -2062,9 +2062,9 @@
   "version" "5.3.1"
 
 "caniuse-lite@^1.0.30001254":
-  "integrity" "sha512-JN49KplOgHSXpIsVSF+LUyhD8PUp6xPpAXeRrrcBh4KBeP7W864jHn6RvzJgDlrReyeVjMFJL3PLpPvKIxlIHA=="
-  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001257.tgz"
-  "version" "1.0.30001257"
+  "integrity" "sha512-2SodVrFFtvGENGCv0ChVJIDQ0KPaS1cg7/qtfMaICgeMolDdo/Z2OD32F0Aq9yl6F4YFwGPBS5AaPqNYiW4PoA=="
+  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001341.tgz"
+  "version" "1.0.30001341"
 
 "chalk@^2.0.0":
   "integrity" "sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ=="
@@ -6262,6 +6262,11 @@
   "version" "3.0.2"
   dependencies:
     "glob" "^7.1.3"
+
+"rollup-plugin-glsl-loader@^1.0.13":
+  "integrity" "sha512-mvkSd676gSBXiA7atSAr7N+E7zuAguu4x8YCK0VgqzT9u8pC6Znp/zeujXVHzrKgTDYXduqV0AWFS/2VYrsvTA=="
+  "resolved" "https://registry.npmjs.org/rollup-plugin-glsl-loader/-/rollup-plugin-glsl-loader-1.0.13.tgz"
+  "version" "1.0.13"
 
 "rollup-plugin-terser@^7.0.2":
   "integrity" "sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ=="

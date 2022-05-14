@@ -1,4 +1,4 @@
-# svg-webgl-loader
+# svg-webgl-loader-opti
 
 ## Introduction
 
@@ -11,17 +11,17 @@ All credits go to the original author, MoeYc.
 ### npm/yarn
 
 ```shell
-npm i svg-webgl-loader
+npm i svg-webgl-loader-opti
 ```
 
 ```shell
-yarn add svg-webgl-loader
+yarn add svg-webgl-loader-opti
 ```
 
 ## Usage
 
 ```js
-import svgLoader from "svg-webgl-loader";
+import svgLoader from "svg-webgl-loader-opti";
 import svgUrl from "./img/test.svg";
 
 // load and parse svg data
