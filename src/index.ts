@@ -4,8 +4,6 @@ import { getViewBox, parsePathToData } from '@/core/parsePathToData';
 import { preprocess } from '@/core/preprocessData';
 import { paint } from '@/core/paint';
 import { SvgLoader, LoadParams, RenderConfig } from './types/types';
-import vertexShader from '@/shaders/vertex.glsl';
-import fragmentShader from '@/shaders/fragment.glsl';
 import { createProgramInfo } from 'twgl.js';
 
 export default async function init(svgUrl: string): Promise<SvgLoader> {
@@ -33,7 +31,10 @@ export default async function init(svgUrl: string): Promise<SvgLoader> {
     loc = loc || defaultLoc;
     loc.width = loc.width || realViewBox.width;
     loc.height = loc.height || realViewBox.height;
-    const programInfo = createProgramInfo(gl, [vertexShader, fragmentShader]);
+    const programInfo = createProgramInfo(gl, [
+      params.shaders.vertex,
+      params.shaders.fragment,
+    ]);
     svgLoader.gl = gl;
     svgLoader.programInfo = programInfo;
     svgLoader.preprocessed = preprocess(gl, realViewBox, loc, data);

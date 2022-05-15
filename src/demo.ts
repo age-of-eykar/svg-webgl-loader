@@ -1,6 +1,8 @@
 import svgLoader from './index';
 
 import svgUrl from '../public/static/svg/medium.svg';
+import vertexShader from '@/shaders/vertex.glsl';
+import fragmentShader from '@/shaders/fragment.glsl';
 
 async function loadSvg() {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -19,6 +21,10 @@ async function loadSvg() {
   const loader = await svgLoader(svgUrl);
   loader.load({
     gl,
+    shaders: {
+      vertex: vertexShader,
+      fragment: fragmentShader,
+    },
     loc: {
       width: 400,
       height: 400,

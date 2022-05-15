@@ -23,6 +23,10 @@ export interface RenderConfig {
 
 export interface LoadParams {
   gl: WebGL2RenderingContext;
+  shaders: {
+    vertex: string;
+    fragment: string;
+  };
   loc?: {
     width?: number;
     height?: number;

@@ -30,6 +30,10 @@ const svgData = await svgLoader(svgUrl);
 // load the canvas and create the buffers
 loader.load({
   gl,
+  shaders: {
+    vertex: vertexShader,
+    fragment: fragmentShader
+  },
   loc: {
     width: 400,
     height: 400,
