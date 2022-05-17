@@ -15,15 +15,14 @@ export type ContextAttributes = Partial<{
 
 export type GLType = WebGLRenderingContext | WebGL2RenderingContext;
 export interface RenderConfig {
-  scale?: number;
-  loc?: { x: number; y: number };
+  uniforms?: object;
   needFill?: boolean;
   needStroke?: boolean;
 }
 
 export interface LoadParams {
   gl: WebGL2RenderingContext;
-  shaders: {
+  shaders?: {
     vertex: string;
     fragment: string;
   };

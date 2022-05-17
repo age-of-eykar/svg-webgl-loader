@@ -1,11 +1,11 @@
 import svgLoader from './index';
 
 import svgUrl from '../public/static/svg/medium.svg';
-import vertexShader from '@/shaders/vertex.glsl';
-import fragmentShader from '@/shaders/fragment.glsl';
 
 async function loadSvg() {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
   const gl = canvas.getContext('webgl2', {
     alpha: false,
     depth: false,
@@ -21,10 +21,6 @@ async function loadSvg() {
   const loader = await svgLoader(svgUrl);
   loader.load({
     gl,
-    shaders: {
-      vertex: vertexShader,
-      fragment: fragmentShader,
-    },
     loc: {
       width: 400,
       height: 400,
@@ -33,8 +29,11 @@ async function loadSvg() {
   });
 
   loader.draw({
-    scale: 0.8,
-    loc: { x: 0.5, y: 0 },
+    uniforms: {
+      scale: 0.8,
+      location: [0.0, 0.0],
+      ratio: canvas.width / canvas.height,
+    },
     needFill: true,
     needStroke: true,
   });

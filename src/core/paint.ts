@@ -9,11 +9,14 @@ export function paint(gl, programInfo, data, config) {
     )
       return;
     toggleBlend(gl, item?.fillOpacity);
-    setUniforms(programInfo, {
-      shapeColor: [item.color.r, item.color.g, item.color.b, item.fillOpacity],
-      location: [config.loc.x, config.loc.y],
-      scale: [1 / config.scale]
-    });
+    const uniforms = config.uniforms;
+    uniforms.shapeColor = [
+      item.color.r,
+      item.color.g,
+      item.color.b,
+      item.fillOpacity,
+    ];
+    setUniforms(programInfo, uniforms);
     setBuffersAndAttributes(gl, programInfo, item.bufferInfo);
     drawBufferInfo(gl, item.bufferInfo);
   });
