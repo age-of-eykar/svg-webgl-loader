@@ -1,9 +1,9 @@
 {
 	"name": "svg-webgl-loader-opti",
-	"version": "2.3.0",
+	"version": "2.3.1",
 	"description": "",
-	"browser": "dist/js/index.umd.js",
-	"module": "dist/js/index.esm.js",
+	"browser": "dist/js/index.umd.js", 
+	"module": "dist/js/index.esm.js", 
 	"types": "dist/js/index.d.ts",
 	"scripts": {
 		"dev": "webpack serve -c ./config/webpack.dev.js --progress",
